@@ -1,0 +1,202 @@
+swagger: "2.0"
+info:
+  description: "API Description of an auction house crafted with DDD practices"
+  version: "1.0.0"
+  title: "Auction House DDD Style"
+host: "localhost:9001"
+basePath: "/api"
+tags:
+  - name: "auction"
+    description: "Every operation to operates with auctions"
+schemes:
+  - "http"
+paths:
+  /auction:
+    post:
+      tags:
+        - "auction"
+      summary: "Creates a new auction"
+      description: ""
+      operationId: "addAuction"
+      consumes:
+        - "application/json"
+      produces:
+        - "text/html"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Auction object that needs to be auctioned"
+          required: true
+          schema:
+            $ref: "#/definitions/Auction"
+      responses:
+        422:
+          description: "Invalid input"
+          schema:
+            items:
+              $ref: "#/definitions/ErrorResponse"
+        201:
+          description: "Created."
+          headers:
+            Location:
+              type: string
+              description: Url of the newly created auction
+  /auction/{auction_id}:
+    get:
+      parameters:
+        - in: path
+          name: auction_id
+          required: true
+          schema:
+            type: string
+            maximum: 1
+          description: Auction Id
+      tags:
+        - "auction"
+      summary: "Finds auction by id"
+      operationId: "findAuctionById"
+      produces:
+        - "text/html"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            items:
+              $ref: "#/definitions/Auction"
+        400:
+          description: "Invalid status value"
+  /auction/{auction_id}/bid:
+    post:
+      parameters:
+        - in: path
+          name: auction_id
+          required: true
+          schema:
+            type: string
+            maximum: 1
+          description: Auction Id
+        - in: body
+          name: bid
+          required: true
+          description: A bid to the auction
+          schema:
+            $ref: "#/definitions/Bid"
+      tags:
+        - "auction"
+      summary: "Post a bid to an existing auction"
+      operationId: "postBidToAuction"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        201:
+          description: "Created"
+        422:
+          description: "Invalid input"
+          schema:
+            items:
+              $ref: "#/definitions/ErrorResponse"
+  /auction/{auction_id}/conquer:
+    post:
+      parameters:
+        - in: path
+          name: auction_id
+          required: true
+          schema:
+            type: string
+            maximum: 1
+          description: Auction Id
+        - in: body
+          name: bid
+          required: true
+          description: conquer request
+          schema:
+            $ref: "#/definitions/Conquer"
+      tags:
+        - "auction"
+      summary: "Conquer an auction"
+      operationId: "postConquerAuction"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "Ok"
+        422:
+          description: "Invalid input"
+          schema:
+            items:
+              $ref: "#/definitions/ErrorResponse"
+
+definitions:
+  ErrorResponse:
+    type: "object"
+    required:
+      - name
+      - description
+    properties:
+      name:
+        type: string
+        example: error name
+      description:
+        type: string
+        example: a more detailed error description
+  Auction:
+    type: "object"
+    required:
+      - item
+      - initial_bid
+      - end_date
+      - conquer_price
+      - owner_id
+    properties:
+      item:
+        type: object
+        required:
+          - name
+        properties:
+          name:
+            type: string
+            example: "DDD. Tackling complexity in the heart of code. Eric Evans"
+          description:
+            type: string
+            example: "An insight book to understand how to express our code near to the domain of our business"
+      initial_bid:
+        type: number
+        example: 10.5
+      conquer_price:
+        type: number
+        example: 50.0
+      expiration_date:
+        type: string
+        example: "2020-01-24"
+      owner_id:
+        type: string
+        default: The owner of the auction
+        example: auction_owner_id
+
+  Bid:
+    type: "object"
+    required:
+      - amount
+      - bidder_id
+    properties:
+      amount:
+        type: number
+        example: 50
+        description: the bid amount for the auction
+      bidder_id:
+        type: string
+        example: "any_bidder_id"
+        description: the bidder id
+  Conquer:
+    type: "object"
+    required:
+      - user_id
+    properties:
+      user_id:
+        type: string
+        example: "anyUserId"
+        description: the user that conquer the auction
