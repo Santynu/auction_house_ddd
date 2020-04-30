@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class Auction {
 
-    final String id;
+    public final String id;
 
     public Auction(String id) {
         this.id = id;

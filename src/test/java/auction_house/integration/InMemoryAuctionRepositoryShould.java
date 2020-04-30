@@ -6,20 +6,32 @@ import com.codesai.auction_house.infrastructure.InMemoryAuctionRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InMemoryAuctionRepositoryShould {
 
+    private InMemoryAuctionRepository inMemoryAuctionRepository = new InMemoryAuctionRepository();;
+
     @Test
     public void get_auction_by_id(){
+        Auction givenAuction = new Auction("any_id");
+        inMemoryAuctionRepository.save(givenAuction);
 
-        InMemoryAuctionRepository inMemoryAuctionRepository = new InMemoryAuctionRepository();
-        Auction expectedAuction = new Auction("any_id");
+        Auction expectedAuction = inMemoryAuctionRepository.retrieveById("any_id");
 
-        Auction auction = inMemoryAuctionRepository.retrieveById("any_id");
-
-        assertThat(auction).isEqualTo(expectedAuction);
+        assertThat(expectedAuction).isEqualTo(givenAuction);
     }
+    
+    @Test
+    public void save_auction() {
+        Auction givenAuction = new Auction("any_id");
+        boolean saved = inMemoryAuctionRepository.save(givenAuction);
 
+        Auction expectedAuction = inMemoryAuctionRepository.retrieveById(givenAuction.id);
+
+        assertTrue(saved);
+        assertThat(expectedAuction).isEqualTo(givenAuction);
+    }
 
 }
 

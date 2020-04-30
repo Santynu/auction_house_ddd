@@ -1,8 +1,12 @@
 package com.codesai.auction_house.infrastructure.delivery_mechanism;
 
+import com.codesai.auction_house.business.model.Auction;
+import com.codesai.auction_house.infrastructure.ActionFactory;
+import org.eclipse.jetty.http.HttpStatus;
 import spark.Response;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static spark.Spark.*;
 
@@ -16,8 +20,17 @@ public class Routing {
 
         get("status", (req, res) -> "OK");
         path("api/", () -> {
-            get("auction/:id", (request, response) -> wipResponse(response));
-            post("auction", (request, response) -> wipResponse(response));
+            get("auction/:id", (request, response) -> {
+                Auction auction = ActionFactory.retrieveAuctionAction().execute(request.params(":id"));
+                response.status(HttpStatus.OK_200);
+                return auction.toString();
+            });
+            post("auction", (request, response) -> {
+                String auctionId = UUID.randomUUID().toString();
+                ActionFactory.createAuctionAction().execute(auctionId);
+                response.status(HttpStatus.CREATED_201);
+                return auctionId;
+            });
             post("auction/:id/bid", (request, response) -> wipResponse(response));
             post("auction/:auction_id/conquer", (request, response) -> wipResponse(response));
         });
