@@ -9,7 +9,6 @@ public class ActionFactory {
         return new RetrieveAuctionAction(new InMemoryAuctionRepository());
     }
 
-
     public static CreateAuctionAction createAuctionAction() {
         return new CreateAuctionAction(new InMemoryAuctionRepository());
     }
