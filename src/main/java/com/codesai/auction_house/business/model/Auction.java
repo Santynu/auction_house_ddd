@@ -6,9 +6,20 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class Auction {
 
     public final String id;
+    private final Double initialPrice;
+    private final Double conquerPrice;
 
-    public Auction(String id) {
+    public Auction(String id, Double initialPrice, Double conquerPrice) {
         this.id = id;
+        this.initialPrice = initialPrice;
+        this.conquerPrice = conquerPrice;
+
+        validate();
+    }
+
+    private void validate() {
+        if(initialPrice > conquerPrice)
+            throw new RuntimeException();
     }
 
     @Override
@@ -21,6 +32,8 @@ public class Auction {
 
         return new EqualsBuilder()
                 .append(id, auction.id)
+                .append(initialPrice, auction.initialPrice)
+                .append(conquerPrice, auction.conquerPrice)
                 .isEquals();
     }
 
@@ -28,6 +41,8 @@ public class Auction {
     public int hashCode() {
         return new HashCodeBuilder(17, 37)
                 .append(id)
+                .append(initialPrice)
+                .append(conquerPrice)
                 .toHashCode();
     }
 }

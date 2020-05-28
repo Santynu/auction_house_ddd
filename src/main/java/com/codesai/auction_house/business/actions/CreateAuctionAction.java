@@ -10,8 +10,13 @@ public class CreateAuctionAction {
         this.repository = repository;
     }
 
-    public boolean execute(String auctionId) {
-        Auction auction = new Auction(auctionId);
+    public boolean execute(CreateAuctionRequest createAuctionRequest) {
+
+
+
+        Auction auction = new Auction(createAuctionRequest.auctionId,
+                createAuctionRequest.initialPrice,
+                createAuctionRequest.conquerPrice);
 
         return repository.save(auction);
     }

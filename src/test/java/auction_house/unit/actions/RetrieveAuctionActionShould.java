@@ -5,6 +5,8 @@ import com.codesai.auction_house.business.model.Auction;
 import com.codesai.auction_house.business.model.AuctionRepository;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -16,8 +18,10 @@ public class RetrieveAuctionActionShould {
     public void
     retrieve_an_auction_by_id() {
         AuctionRepository repository = mock(AuctionRepository.class);
+        Double anyInitialPrice = new Random().nextDouble() + 1D;
+        Double anyConquerPrice = anyInitialPrice + new Random().nextDouble();
+        Auction expectedAuction = new Auction("anyId", anyInitialPrice, anyConquerPrice);
 
-        Auction expectedAuction = new Auction("anyId");
         when(repository.retrieveById(any())).thenReturn(expectedAuction);
 
         Auction auction = new RetrieveAuctionAction(repository).execute(expectedAuction.id);

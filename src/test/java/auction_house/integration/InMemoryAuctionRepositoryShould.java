@@ -14,7 +14,7 @@ public class InMemoryAuctionRepositoryShould {
 
     @Test
     public void get_auction_by_id(){
-        Auction givenAuction = new Auction("any_id");
+        Auction givenAuction = new Auction("any_id", 1d, 1d);
         inMemoryAuctionRepository.save(givenAuction);
 
         Auction expectedAuction = inMemoryAuctionRepository.retrieveById("any_id");
@@ -24,7 +24,7 @@ public class InMemoryAuctionRepositoryShould {
     
     @Test
     public void save_auction() {
-        Auction givenAuction = new Auction("any_id");
+        Auction givenAuction = new Auction("any_id", 1d, 1d);
         boolean saved = inMemoryAuctionRepository.save(givenAuction);
 
         Auction expectedAuction = inMemoryAuctionRepository.retrieveById(givenAuction.id);

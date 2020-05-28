@@ -1,5 +1,6 @@
 package com.codesai.auction_house.infrastructure.delivery_mechanism;
 
+import com.codesai.auction_house.business.actions.CreateAuctionRequest;
 import com.codesai.auction_house.business.model.Auction;
 import com.codesai.auction_house.infrastructure.ActionFactory;
 import org.eclipse.jetty.http.HttpStatus;
@@ -27,7 +28,8 @@ public class Routing {
             });
             post("auction", (request, response) -> {
                 String auctionId = UUID.randomUUID().toString();
-                ActionFactory.createAuctionAction().execute(auctionId);
+                ActionFactory.createAuctionAction().execute(
+                        new CreateAuctionRequest(auctionId, request.queryParams("initialPrice"), request.queryParams("conquerPrice")));
                 response.status(HttpStatus.CREATED_201);
                 return auctionId;
             });
