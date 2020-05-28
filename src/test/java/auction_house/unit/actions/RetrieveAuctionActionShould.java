@@ -20,7 +20,7 @@ public class RetrieveAuctionActionShould {
         AuctionRepository repository = mock(AuctionRepository.class);
         Double anyInitialPrice = new Random().nextDouble() + 1D;
         Double anyConquerPrice = anyInitialPrice + new Random().nextDouble();
-        Auction expectedAuction = new Auction("anyId", anyInitialPrice, anyConquerPrice);
+        Auction expectedAuction = new Auction(anyInitialPrice, anyConquerPrice);
 
         when(repository.retrieveById(any())).thenReturn(expectedAuction);
 

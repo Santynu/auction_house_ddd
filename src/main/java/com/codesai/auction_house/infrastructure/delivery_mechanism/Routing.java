@@ -27,11 +27,11 @@ public class Routing {
                 return auction.toString();
             });
             post("auction", (request, response) -> {
-                String auctionId = UUID.randomUUID().toString();
+
                 ActionFactory.createAuctionAction().execute(
-                        new CreateAuctionRequest(auctionId, request.queryParams("initialPrice"), request.queryParams("conquerPrice")));
+                        new CreateAuctionRequest(request.queryParams("initialPrice"), request.queryParams("conquerPrice")));
                 response.status(HttpStatus.CREATED_201);
-                return auctionId;
+                return "auctionId";
             });
             post("auction/:id/bid", (request, response) -> wipResponse(response));
             post("auction/:auction_id/conquer", (request, response) -> wipResponse(response));

@@ -3,14 +3,16 @@ package com.codesai.auction_house.business.model;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import java.util.UUID;
+
 public class Auction {
 
     public final String id;
-    private final Double initialPrice;
-    private final Double conquerPrice;
+    public final Double initialPrice;
+    public final Double conquerPrice;
 
-    public Auction(String id, Double initialPrice, Double conquerPrice) {
-        this.id = id;
+    public Auction(Double initialPrice, Double conquerPrice) {
+        this.id = UUID.randomUUID().toString();
         this.initialPrice = initialPrice;
         this.conquerPrice = conquerPrice;
 
@@ -44,5 +46,14 @@ public class Auction {
                 .append(initialPrice)
                 .append(conquerPrice)
                 .toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id='" + id + '\'' +
+                ", initialPrice=" + initialPrice +
+                ", conquerPrice=" + conquerPrice +
+                '}';
     }
 }
