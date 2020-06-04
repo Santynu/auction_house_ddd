@@ -44,7 +44,7 @@ public class CreateAuctionApiShould extends ApiTest {
             assertThat().
             statusCode(201).
             header("Location", allOf(
-                startsWith(RestAssured.baseURI + "auction/"),
+                startsWith("/api/auction/"),
                 urlEndsWithValidUUID()
             ));
     }

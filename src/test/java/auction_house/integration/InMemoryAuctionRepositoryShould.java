@@ -17,7 +17,7 @@ public class InMemoryAuctionRepositoryShould {
         Auction givenAuction = new Auction(1d, 1d);
         inMemoryAuctionRepository.save(givenAuction);
 
-        Auction expectedAuction = inMemoryAuctionRepository.retrieveById("any_id");
+        Auction expectedAuction = inMemoryAuctionRepository.retrieveById(givenAuction.id);
 
         assertThat(expectedAuction).isEqualTo(givenAuction);
     }

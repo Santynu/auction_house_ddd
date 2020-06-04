@@ -28,13 +28,13 @@ public class RetrieveAuctionApiShould extends ApiTest {
                 assertThat().
                 statusCode(201).
                 header("Location", allOf(
-                        startsWith(RestAssured.baseURI + "auction/"),
+                        startsWith("/api/auction/"),
                         urlEndsWithValidUUID()
                 )).
                 extract().
                 header("Location");
 
-        return location.split("/")[5];
+        return location.split("/")[3];
     }
 
     @Test

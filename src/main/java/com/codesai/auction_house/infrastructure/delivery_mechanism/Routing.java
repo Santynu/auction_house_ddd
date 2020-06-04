@@ -3,9 +3,16 @@ package com.codesai.auction_house.infrastructure.delivery_mechanism;
 import com.codesai.auction_house.business.actions.CreateAuctionRequest;
 import com.codesai.auction_house.business.model.Auction;
 import com.codesai.auction_house.infrastructure.ActionFactory;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import org.eclipse.jetty.client.HttpContent;
+import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
+import org.json.JSONObject;
+import spark.Request;
 import spark.Response;
 
+import java.net.http.HttpHeaders;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,14 +31,18 @@ public class Routing {
             get("auction/:id", (request, response) -> {
                 Auction auction = ActionFactory.retrieveAuctionAction().execute(request.params(":id"));
                 response.status(HttpStatus.OK_200);
+                response.header(HttpHeader.CONTENT_TYPE.asString(), "application/json");
+
                 return auction.toString();
             });
             post("auction", (request, response) -> {
+                JsonObject postParams = getBodyAsJSON(request);
 
-                ActionFactory.createAuctionAction().execute(
-                        new CreateAuctionRequest(request.queryParams("initialPrice"), request.queryParams("conquerPrice")));
+                String auctionId = ActionFactory.createAuctionAction().execute(
+                        new CreateAuctionRequest(postParams.get("initial_bid").toString(), postParams.get("conquer_price").toString()));
+                response.header("Location", request.uri()+"/"+auctionId);
                 response.status(HttpStatus.CREATED_201);
-                return "auctionId";
+                return auctionId;
             });
             post("auction/:id/bid", (request, response) -> wipResponse(response));
             post("auction/:auction_id/conquer", (request, response) -> wipResponse(response));
@@ -48,6 +59,10 @@ public class Routing {
         });
 
 
+    }
+
+    private static JsonObject getBodyAsJSON(Request request) {
+        return new Gson().fromJson(request.body(), JsonObject.class);
     }
 
     private static Object wipResponse(Response response) {

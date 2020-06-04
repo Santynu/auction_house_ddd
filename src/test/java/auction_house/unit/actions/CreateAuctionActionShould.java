@@ -23,12 +23,12 @@ public class CreateAuctionActionShould {
     public void
     create_an_auction() {
         AuctionRepository repository = mock(AuctionRepository.class);
-        double anyInitialPrice = new Random().nextDouble() + 1D;
-        double anyConquerPrice = anyInitialPrice + new Random().nextDouble();
+        double anyInitialBid = new Random().nextDouble() + 1D;
+        double anyConquerPrice = anyInitialBid + new Random().nextDouble();
 
 
         new CreateAuctionAction(repository).execute(new CreateAuctionRequest(
-                String.valueOf(anyInitialPrice),
+                String.valueOf(anyInitialBid),
                 String.valueOf(anyConquerPrice)));
 
         ArgumentCaptor<Auction> auctionCapture = ArgumentCaptor.forClass(Auction.class);
@@ -37,7 +37,7 @@ public class CreateAuctionActionShould {
 
         Auction auction = auctionCapture.getValue();
 
-        assertThat(auction.initialPrice).isEqualTo(anyInitialPrice);
+        assertThat(auction.initialPrice).isEqualTo(anyInitialBid);
         assertThat(auction.conquerPrice).isEqualTo(anyConquerPrice);
         assertThat(auction.id).matches(UUID_REGEX);
     }
@@ -57,5 +57,4 @@ public class CreateAuctionActionShould {
                     String.valueOf(anyConquerPrice)));
         });
     }
-
 }

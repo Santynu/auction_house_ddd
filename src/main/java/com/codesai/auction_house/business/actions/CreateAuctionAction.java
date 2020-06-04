@@ -3,8 +3,6 @@ package com.codesai.auction_house.business.actions;
 import com.codesai.auction_house.business.model.Auction;
 import com.codesai.auction_house.business.model.AuctionRepository;
 
-import java.util.UUID;
-
 public class CreateAuctionAction {
     private final AuctionRepository repository;
 
@@ -12,12 +10,13 @@ public class CreateAuctionAction {
         this.repository = repository;
     }
 
-    public boolean execute(CreateAuctionRequest createAuctionRequest) {
+    public String execute(CreateAuctionRequest createAuctionRequest) {
 
         Auction auction = new Auction(
-                createAuctionRequest.initialPrice,
+                createAuctionRequest.initialBid,
                 createAuctionRequest.conquerPrice);
 
-        return repository.save(auction);
+        repository.save(auction);
+        return auction.id;
     }
 }

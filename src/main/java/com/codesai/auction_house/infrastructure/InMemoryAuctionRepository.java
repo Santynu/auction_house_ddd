@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class InMemoryAuctionRepository implements AuctionRepository {
 
-    private Map<String, Auction> auctions = new HashMap<>();
+    private static Map<String, Auction> auctions = new HashMap<>();
 
     @Override
     public Auction retrieveById(String auctionId) {
