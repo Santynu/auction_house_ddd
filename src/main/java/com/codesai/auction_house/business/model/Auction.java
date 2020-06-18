@@ -1,5 +1,6 @@
 package com.codesai.auction_house.business.model;
 
+import com.codesai.auction_house.business.ConquerPriceGreaterThantInitialBidException;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -21,7 +22,7 @@ public class Auction {
 
     private void validate() {
         if(initialPrice > conquerPrice)
-            throw new RuntimeException();
+            throw new ConquerPriceGreaterThantInitialBidException();
     }
 
     @Override

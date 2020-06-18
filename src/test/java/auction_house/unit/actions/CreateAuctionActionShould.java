@@ -1,5 +1,6 @@
 package auction_house.unit.actions;
 
+import com.codesai.auction_house.business.ConquerPriceGreaterThantInitialBidException;
 import com.codesai.auction_house.business.actions.CreateAuctionAction;
 import com.codesai.auction_house.business.actions.CreateAuctionRequest;
 import com.codesai.auction_house.business.model.Auction;
@@ -51,10 +52,11 @@ public class CreateAuctionActionShould {
         double anyConquerPrice = new Random().nextDouble() - anyInitialPrice;
 
 
-        Assertions.assertThrows(RuntimeException.class, () -> {
+        Assertions.assertThrows(ConquerPriceGreaterThantInitialBidException.class, () -> {
             new CreateAuctionAction(repository).execute(new CreateAuctionRequest(
                     String.valueOf(anyInitialPrice),
                     String.valueOf(anyConquerPrice)));
         });
     }
+
 }
