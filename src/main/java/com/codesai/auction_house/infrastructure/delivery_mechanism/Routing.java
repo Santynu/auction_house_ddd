@@ -50,12 +50,19 @@ public class Routing {
                     return auctionId;
 
                 }catch (ConquerPriceGreaterThantInitialBidException e){
-                    response.status(HttpStatus.UNPROCESSABLE_ENTITY_422);
-                    //response.body(
-                      //      "name", "InitialBidIsGreaterThanConquerPrice"
-                             //"description", "initial cannot be greater "+initial_bid+" than conquer price "+conquer_price);
 
-                    return "InitialBidIsGreaterThanConquerPrice";
+
+                    JSONObject json = new JSONObject();
+                    json.put("name", "InitialBidIsGreaterThanConquerPrice");
+                    json.put("description", "initial cannot be greater " + initial_bid + " than conquer price " + conquer_price);
+
+
+                    response.status(HttpStatus.UNPROCESSABLE_ENTITY_422);
+
+
+                    response.type("application/json");
+
+                    return json.toString();
 
 
                 }catch (Exception e){

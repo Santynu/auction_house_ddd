@@ -69,8 +69,8 @@ public class CreateAuctionApiShould extends ApiTest {
         given().
                 when().
                     body(ANY_AUCTION_JSON
-                            .put("initial_bid", 10)
-                            .put("conquer_price", 5)
+                            .put("initial_bid", 10.01)
+                            .put("conquer_price", 5.01)
                             .toString()).
                     post("auction").
                 then().
@@ -78,8 +78,12 @@ public class CreateAuctionApiShould extends ApiTest {
                     statusCode(422).
                     body(
                             "name", equalTo("InitialBidIsGreaterThanConquerPrice"),
-                            "description", equalTo("initial cannot be greater 10.00 than conquer price 5.00")
+                            "description", equalTo("initial cannot be greater 10.01 than conquer price 5.01")
                     );
+
+
+
+
     }
 
 }

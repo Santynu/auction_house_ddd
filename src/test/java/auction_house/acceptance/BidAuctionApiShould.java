@@ -20,8 +20,8 @@ public class BidAuctionApiShould extends ApiTest {
     public static final String ANY_BIDDER_ID = "AnyUserId" + UUID.randomUUID();
     public static final double ANY_INITIAL_BIDDING_AMOUNT = 50.0;
 
-    @Test public void
-    post_to_bid_an_existing_auction() throws JSONException {
+    @Test
+    public void post_to_bid_an_existing_auction() throws JSONException {
         var overBiddingAmount = ANY_INITIAL_BIDDING_AMOUNT + 10;
         String auctionId = givenExistingAuction(ANY_OWNER_ID, ANY_INITIAL_BIDDING_AMOUNT);
 
@@ -38,8 +38,8 @@ public class BidAuctionApiShould extends ApiTest {
         assertThat(actualBidFrom(auctionId).get("bidder_id").getAsString()).isEqualTo(ANY_BIDDER_ID);
     }
 
-    @Test public void
-    get_an_error_response_when_try_to_create_an_invalid_bid() throws JSONException {
+    @Test
+    public void get_an_error_response_when_try_to_create_an_invalid_bid() throws JSONException {
         var givenExistingAuctionId = givenExistingAuction(ANY_BIDDER_ID, ANY_INITIAL_BIDDING_AMOUNT);
 
         var underBiddenAmount = ANY_INITIAL_BIDDING_AMOUNT - 10;
@@ -85,7 +85,8 @@ public class BidAuctionApiShould extends ApiTest {
         if (location == null) {
             return "NotSuccessfully created auction";
         }
-        return location.split("/")[5];
+
+        return location.split("/")[3];
     }
 
 }
